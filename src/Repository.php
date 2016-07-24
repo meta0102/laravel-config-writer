@@ -20,6 +20,7 @@ class Repository extends RepositoryBase
      *
      * @param  array  $items
      * @param  Rewrite $rewrite
+     * @param  string $config_path
      */
     public function __construct($items = array(), Rewrite $rewrite, $config_path)
     {

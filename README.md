@@ -13,13 +13,17 @@ The following value types are supported for writing: strings, integers and boole
 Add this to ```app/config/app.php``` under the 'providers' key:
 
 ```php
-'VirtualComplete\Config\ConfigServiceProvider',
+VirtualComplete\Config\ConfigServiceProvider::class,
 ```
 
 You can now write to config files:
 
 ```
 Config::write(['app.url' => 'http://octobercms.com']);
+```
+
+```
+app('config')->write(['app.url' => 'http://octobercms.com']);
 ```
 
 ### Usage outside Laravel
