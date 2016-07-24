@@ -1,7 +1,12 @@
-<?php namespace October\Rain\Config;
+<?php namespace VirtualComplete\Config;
 
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class FileWriter
+ * @package VirtualComplete\Config
+ * @deprecated No longer used as of changing Repository to use Rewrite directly
+ */
 class FileWriter
 {
     /**

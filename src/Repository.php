@@ -1,44 +1,53 @@
-<?php namespace October\Rain\Config;
+<?php namespace VirtualComplete\Config;
 
 use Illuminate\Config\Repository as RepositoryBase;
 
 class Repository extends RepositoryBase
 {
     /**
-     * The config rewriter object.
+     * The config rewrite object.
      *
      * @var string
      */
-    protected $writer;
+    protected $rewrite;
+    /**
+     * @var string
+     */
+    private $config_path;
 
     /**
      * Create a new configuration repository.
      *
      * @param  array  $items
-     * @param  FileWriter $writer
-     * @return void
+     * @param  Rewrite $rewrite
      */
-    public function __construct($items = array(), $writer)
+    public function __construct($items = array(), Rewrite $rewrite, $config_path)
     {
-        $this->writer = $writer;
+        $this->rewrite = $rewrite;
+        $this->config_path = $config_path;
         parent::__construct($items);
     }
 
     /**
      * Write a given configuration value to file.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param array $values Array of key => value pairs
+     * @throws \Exception
      * @return void
      */
-    public function write($key, $value)
+    public function write(array $values)
     {
-        list($filename, $item) = $this->parseKey($key);
-        $result = $this->writer->write($item, $value, $filename);
+        foreach($values as $key => $value) {
+            $this->set($key, $value);
+            list($filename, $item) = $this->parseKey($key);
+            $config[$filename][$item] = $value;
+        }
 
-        if(!$result) throw new \Exception('File could not be written to');
-
-        $this->set($key, $value);
+        foreach($config as $filename => $items) {
+            $path = $this->config_path . DIRECTORY_SEPARATOR . $filename;
+            if (!is_writeable($path)) throw new \Exception('Configuration file ' . $filename . ' is not writeable.');
+            if (!$this->rewrite->toFile($path, $items)) throw new \Exception('Unable to update configuration file ' . $filename);
+        }
     }
 
     /**

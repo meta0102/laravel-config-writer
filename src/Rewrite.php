@@ -1,4 +1,4 @@
-<?php namespace October\Rain\Config;
+<?php namespace VirtualComplete\Config;
 
 use Exception;
 
@@ -21,13 +21,19 @@ use Exception;
  */
 class Rewrite
 {
+    public $contents;
 
+    /**
+     * @param string $filePath
+     * @param array $newValues
+     * @param bool $useValidation
+     * @return int
+     */
     public function toFile($filePath, $newValues, $useValidation = true)
     {
         $contents = file_get_contents($filePath);
         $contents = $this->toContent($contents, $newValues, $useValidation);
-        file_put_contents($filePath, $contents);
-        return $contents;
+        return file_put_contents($filePath, $contents);
     }
 
     public function toContent($contents, $newValues, $useValidation = true)
@@ -54,7 +60,11 @@ class Rewrite
             }
         }
 
-        return $contents;
+        return $this->contents = $contents;
+    }
+
+    public function getLastContents() {
+        return $this->contents;
     }
 
     private function parseContent($contents, $newValues)
