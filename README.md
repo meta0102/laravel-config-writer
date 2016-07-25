@@ -8,6 +8,10 @@ You can rewrite array values inside a basic configuration file that returns a si
 
 The following value types are supported for writing: strings, integers and booleans.
 
+## Changes in this fork
+
+This fork reworks how config writer updates files.  This writer accepts an array in write() to allow for multiple configuration values to be accepted.  This also reworks the Rewrite call to only write to each file once for efficiency.
+
 ### Usage Instructions
 
 Add this to ```app/config/app.php``` under the 'providers' key:
