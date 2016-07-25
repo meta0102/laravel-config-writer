@@ -45,9 +45,9 @@ class Repository extends RepositoryBase
         }
 
         foreach($config as $filename => $items) {
-            $path = $this->config_path . DIRECTORY_SEPARATOR . $filename;
-            if (!is_writeable($path)) throw new \Exception('Configuration file ' . $filename . ' is not writeable.');
-            if (!$this->rewrite->toFile($path, $items)) throw new \Exception('Unable to update configuration file ' . $filename);
+            $path = config_path($filename . '.php');
+            if (!is_writeable($path)) throw new \Exception('Configuration file ' . $filename . '.php is not writeable.');
+            if (!$this->rewrite->toFile($path, $items)) throw new \Exception('Unable to update configuration file ' . $filename . '.php');
         }
     }
 
