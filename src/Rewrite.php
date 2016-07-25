@@ -88,6 +88,10 @@ class Rewrite
             elseif (is_null($value)) {
                 $replaceValue = 'null';
             }
+            elseif (is_array($value)) {
+                throw new Exception('Array values are not supported in Rewrite at this time.');
+                //$replaceValue = var_export($value, true);
+            }
             else {
                 $replaceValue = $value;
             }
